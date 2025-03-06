@@ -5,30 +5,30 @@ import * as crypto from 'crypto';
 /*                                 Constants                                 */
 /* ------------------------------------------------------------------------- */
 
-const DEFAULT_GASLIGHTING_CHANCE = 5; // 5% chance of gaslighting per line
+const DEFAULT_ZAZ_CHANCE = 5; // 5% chance of ZAZ per line
 
-const MIN_LINE_LENGTH = 10; // Minimum line length to apply gaslighting (trimmed)
+const MIN_LINE_LENGTH = 10; // Minimum line length to apply Zaz (trimmed)
 
-const GASLIGHTING_MESSAGES = [
-    'Are you sure this will pass the code quality checks? 🤔',
-    'Is this line really covered by unit tests? 🧐',
-    "I wouldn't commit that line without double checking... 💭",
-    'Your tech lead might have questions about this one 🤔',
-    "That's an... interesting way to solve this 🤯",
-    'Did you really mean to write it this way? 🤔',
-    "Maybe add a comment explaining why this isn't as bad as it looks? 📝",
-    'Bold choice! Very... creative 💡',
-    'Please. Tell me Copilot wrote this one... 🤖',
-    'Totally not a memory leak... 🚽',
-    "I'd be embarrassed to push this to git if I were you. 😳",
+const ZAZ_MESSAGES = [
+    'Surely you can't be serious? I am serious, and don't call me Shirley 👧',
+    'Can you fly this airplane and land it? ✈️',
+    "Don't you tell me which zone is for loading, and which zone is for stopping! 🔴",
+    'Johnny, what can you make out of this?  This? Why, I can make a hat or a brooch or a pterodactyl 🐔',
+    "Get me Rex Kramer! 💂‍♂️",
+    'The tower, the tower! Rapunzel, Rapunzel! 🗼',
+    "Chicago, this is flight two-zero-niner.  We're in trouble. 🔥",
+    'Cold got to be! Y'know? ✊🏿',
+    'I say hey, sky. Subba say I wan' see... 😰',
+    'I just want to tell you both good luck. We're all counting on you... 🙈',
+    "Looks like I picked the wrong week to quit sniffing glue... 😬",
 ];
 
 /* ------------------------------------------------------------------------- */
 /*                               Configuration                               */
 /* ------------------------------------------------------------------------- */
 
-let isSyntaxGaslightingEnabled = true;
-let gaslightingChancePercentage = DEFAULT_GASLIGHTING_CHANCE;
+let isSyntaxZazEnabled = true;
+let zazChancePercentage = DEFAULT_ZAZ_CHANCE;
 
 /* ------------------------------------------------------------------------- */
 /*                             Global variables                              */
@@ -48,18 +48,18 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let timeout: NodeJS.Timer | undefined = undefined;
-    function triggerUpdateGaslightingDecorations() {
+    function triggerUpdateZazDecorations() {
         if (timeout) {
             clearTimeout(timeout);
             timeout = undefined;
         }
-        timeout = setTimeout(updateGaslightingDecorations, 500);
+        timeout = setTimeout(updateZazDecorations, 500);
     }
 
     vscode.window.onDidChangeActiveTextEditor(
         () => {
-            if (isSyntaxGaslightingEnabled) {
-                triggerUpdateGaslightingDecorations();
+            if (isSyntaxZazEnabled) {
+                triggerUpdateZazDecorations();
             }
         },
         null,
@@ -68,8 +68,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.workspace.onDidChangeTextDocument(
         () => {
-            if (isSyntaxGaslightingEnabled) {
-                triggerUpdateGaslightingDecorations();
+            if (isSyntaxZazEnabled) {
+                triggerUpdateZazDecorations();
             }
         },
         null,
@@ -77,13 +77,13 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Register command to toggle the extension
-    const disposable = vscode.commands.registerCommand('syntax-gaslighting.toggle', () => {
-        isSyntaxGaslightingEnabled = !isSyntaxGaslightingEnabled;
-        if (isSyntaxGaslightingEnabled) {
-            vscode.window.showInformationMessage('Syntax Gaslighting enabled! Prepare to question everything...');
-            triggerUpdateGaslightingDecorations();
+    const disposable = vscode.commands.registerCommand('syntax-Zaz.toggle', () => {
+        isSyntaxZazEnabled = !isSyntaxZazEnabled;
+        if (isSyntaxZazEnabled) {
+            vscode.window.showInformationMessage('Syntax Zaz enabled! Prepare to question everything...');
+            triggerUpdateZazDecorations();
         } else {
-            vscode.window.showInformationMessage('Syntax Gaslighting disabled. You can code in peace now.');
+            vscode.window.showInformationMessage('Syntax Zaz disabled. You can code in peace now.');
             const activeEditor = vscode.window.activeTextEditor;
             if (activeEditor) {
                 activeEditor.setDecorations(decorationType, []);
@@ -91,11 +91,11 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    // Register command to change gaslighting chance
-    const changeChanceCommand = vscode.commands.registerCommand('syntax-gaslighting.editChance', async () => {
+    // Register command to change Zaz chance
+    const changeChanceCommand = vscode.commands.registerCommand('syntax-Zaz.editChance', async () => {
         const result = await vscode.window.showInputBox({
-            prompt: 'Enter the percentage chance of gaslighting (1-100)',
-            value: gaslightingChancePercentage.toString(),
+            prompt: 'Enter the percentage chance of Zaz (1-100)',
+            value: ZazChancePercentage.toString(),
             validateInput: (value: string) => {
                 const num = parseInt(value);
                 if (isNaN(num) || num < 1 || num > 100) {
@@ -106,9 +106,9 @@ export function activate(context: vscode.ExtensionContext) {
         });
 
         if (result !== undefined) {
-            gaslightingChancePercentage = parseInt(result);
-            vscode.window.showInformationMessage(`Gaslighting chance set to ${gaslightingChancePercentage}%`);
-            triggerUpdateGaslightingDecorations();
+            ZazChancePercentage = parseInt(result);
+            vscode.window.showInformationMessage(`Zaz chance set to ${ZazChancePercentage}%`);
+            triggerUpdateZazDecorations();
         }
     });
 
@@ -116,7 +116,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Initial decorations
     if (vscode.window.activeTextEditor) {
-        triggerUpdateGaslightingDecorations();
+        triggerUpdateZazDecorations();
     }
 }
 
@@ -137,7 +137,7 @@ function createHash(str: string): string {
 }
 
 // Get deterministic message based on line content
-function getGaslightingMessageForLineContent(line: string): string | null {
+function getZazMessageForLineContent(line: string): string | null {
     const hash = createHash(line);
 
     // Use first 8 chars for selection decision
@@ -147,16 +147,16 @@ function getGaslightingMessageForLineContent(line: string): string | null {
     const messageNum = parseInt(hash.substring(hash.length - 8), 16);
 
     // Use the first number to determine if we should show a message based on configured percentage
-    if (selectionNum % 100 < gaslightingChancePercentage) {
+    if (selectionNum % 100 < ZazChancePercentage) {
         // Use the second number to select the message
-        const messageIndex = messageNum % GASLIGHTING_MESSAGES.length;
-        return GASLIGHTING_MESSAGES[messageIndex];
+        const messageIndex = messageNum % ZAZ_MESSAGES.length;
+        return ZAZ_MESSAGES[messageIndex];
     }
     return null;
 }
 
-async function updateGaslightingDecorations() {
-    if (!isSyntaxGaslightingEnabled) {
+async function updateZazDecorations() {
+    if (!isSyntaxZazEnabled) {
         return;
     }
 
@@ -195,8 +195,8 @@ async function updateGaslightingDecorations() {
             continue;
         }
 
-        // Add gaslighting message
-        const message = getGaslightingMessageForLineContent(trimmedLineText);
+        // Add Zaz message
+        const message = getZazMessageForLineContent(trimmedLineText);
         if (message === null) {
             continue;
         }
