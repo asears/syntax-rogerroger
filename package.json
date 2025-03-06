@@ -1,12 +1,12 @@
 {
-    "name": "syntax-gaslighting",
-    "publisher": "niiju",
-    "displayName": "Syntax Gaslighting",
-    "description": "Gaslight yourself while coding to improve your mental strength.",
+    "name": "syntax-rogerroger",
+    "publisher": "wavesmash",
+    "displayName": "Syntax RogerRoger",
+    "description": "Surely you can't be serious. I am serious, and don't call me Shirley.",
     "version": "0.0.1",
     "repository": {
         "type": "git",
-        "url": "https://github.com/eNiiju/syntax-gaslighting"
+        "url": "https://github.com/asears/syntax-rogerroger"
     },
     "engines": {
         "vscode": "^1.60.0"
@@ -21,12 +21,12 @@
     "contributes": {
         "commands": [
             {
-                "command": "syntax-gaslighting.toggle",
-                "title": "Syntax Gaslighting: Toggle syntax gaslighting"
+                "command": "syntax-rogerroger.toggle",
+                "title": "Syntax RogerRoger: Toggle syntax ZaZ"
             },
             {
-                "command": "syntax-gaslighting.editChance",
-                "title": "Syntax Gaslighting: Edit syntax gaslighting chance"
+                "command": "syntax-rogerroger.editChance",
+                "title": "Syntax RogerRoger: Edit syntax ZaZ chance"
             }
         ]
     },
